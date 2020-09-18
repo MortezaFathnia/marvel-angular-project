@@ -1,0 +1,25 @@
+<div class="search-form-wrapper">
+        <form class="search-form" [formGroup]='marvelForm'>
+                <mat-form-field class="auto-complete">
+                        <input matInput placeholder="Choose a user" [matAutocomplete]="auto" [formControl]="myControl">
+                </mat-form-field>
+
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChange($event)" [displayWith]="displayFn">
+                        <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let marvel of filteredMarvels" [value]="marvel">
+                                        <span>{{ marvel.name }}</span>
+                                </mat-option>
+                        </ng-container>
+                </mat-autocomplete>
+        </form>
+</div>
+<div class="gallary-wrapper clearfix">
+        <div class="img-wrapper" *ngFor="let item of filteredMarvels">
+                <img [src]="item.thumbnail.path+'.'+item.thumbnail.extension" (click)="showDetails(item)" />
+        </div>
+</div>
+<div class="paginator-wrapper">
+        <mat-paginator [length]="100" [pageSize]="3"
+                (page)="pageEvent = getServerData($event)">
+        </mat-paginator>
+</div>
